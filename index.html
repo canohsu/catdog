@@ -4,7 +4,7 @@
 <title>DOG</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
-<link rel="shortcut icon" href="../favicon.ico">
+<link rel="shortcut icon" href="C:\\favicon.ico">
 <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -16,7 +16,73 @@
 <script src="js/script.js"></script>
 </head>
 <body>
+
+<!--fb login -->
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '637295176394143',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+ (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+
+
+function checkLoginState () {
+   FB.getLoginStatus( (response) => {
+   statusChangeCallback(response)
+  })
+}
+
+function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into Facebook.';
+    }
+  }
+
+function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+
+</script>
+<!--fb login -->
+
 <div class="list" data-role="page">  
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
+
+<div id="status">
+</div>
   <div class="menu">
     <dl>
       <dt>
